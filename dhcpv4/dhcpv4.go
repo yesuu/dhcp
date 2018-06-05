@@ -9,7 +9,7 @@ import (
 	"net"
 	"strings"
 
-	"github.com/insomniacslk/dhcp/iana"
+	"github.com/yesuu/dhcp/iana"
 )
 
 // HeaderSize is the DHCPv4 header size in bytes.
@@ -113,6 +113,60 @@ func New() (*DHCPv4, error) {
 	}
 	d.options = options
 	return &d, nil
+}
+
+func NewOffer(req *DHCPv4, yourIPAddr net.IP) *DHCPv4 {
+	return &DHCPv4{
+		opcode:        OpcodeBootReply,
+		hwType:        iana.HwTypeEthernet,
+		hwAddrLen:     6,
+		transactionID: req.TransactionID(),
+		clientIPAddr:  net.IPv4zero,
+		yourIPAddr:    yourIPAddr,
+		serverIPAddr:  req.ServerIPAddr(),
+		gatewayIPAddr: req.GatewayIPAddr(),
+		options: []Option{
+			&OptMessageType{
+				MessageType: MessageTypeOffer,
+			},
+		},
+	}
+}
+
+func NewAck(req *DHCPv4, yourIPAddr net.IP) *DHCPv4 {
+	return &DHCPv4{
+		opcode:        OpcodeBootReply,
+		hwType:        iana.HwTypeEthernet,
+		hwAddrLen:     6,
+		transactionID: req.TransactionID(),
+		clientIPAddr:  net.IPv4zero,
+		yourIPAddr:    yourIPAddr,
+		serverIPAddr:  req.ServerIPAddr(),
+		gatewayIPAddr: req.GatewayIPAddr(),
+		options: []Option{
+			&OptMessageType{
+				MessageType: MessageTypeAck,
+			},
+		},
+	}
+}
+
+func NewNak(req *DHCPv4) *DHCPv4 {
+	return &DHCPv4{
+		opcode:        OpcodeBootReply,
+		hwType:        iana.HwTypeEthernet,
+		hwAddrLen:     6,
+		transactionID: req.TransactionID(),
+		clientIPAddr:  net.IPv4zero,
+		yourIPAddr:    net.IPv4zero,
+		serverIPAddr:  req.ServerIPAddr(),
+		gatewayIPAddr: req.GatewayIPAddr(),
+		options: []Option{
+			&OptMessageType{
+				MessageType: MessageTypeNak,
+			},
+		},
+	}
 }
 
 // NewDiscoveryForInterface builds a new DHCPv4 Discovery message, with a default

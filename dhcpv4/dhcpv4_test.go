@@ -4,8 +4,8 @@ import (
 	"net"
 	"testing"
 
-	"github.com/insomniacslk/dhcp/iana"
 	"github.com/stretchr/testify/require"
+	"github.com/yesuu/dhcp/iana"
 )
 
 func RequireEqualIPAddr(t *testing.T, a, b net.IP, msg ...interface{}) {
