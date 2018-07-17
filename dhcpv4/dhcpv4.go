@@ -125,6 +125,7 @@ func NewOffer(req *DHCPv4, yourIPAddr net.IP) *DHCPv4 {
 		yourIPAddr:    yourIPAddr,
 		serverIPAddr:  req.ServerIPAddr(),
 		gatewayIPAddr: req.GatewayIPAddr(),
+		clientHwAddr:  req.ClientHwAddr(),
 		options: []Option{
 			&OptMessageType{
 				MessageType: MessageTypeOffer,
@@ -143,6 +144,7 @@ func NewAck(req *DHCPv4, yourIPAddr net.IP) *DHCPv4 {
 		yourIPAddr:    yourIPAddr,
 		serverIPAddr:  req.ServerIPAddr(),
 		gatewayIPAddr: req.GatewayIPAddr(),
+		clientHwAddr:  req.ClientHwAddr(),
 		options: []Option{
 			&OptMessageType{
 				MessageType: MessageTypeAck,
@@ -161,6 +163,7 @@ func NewNak(req *DHCPv4) *DHCPv4 {
 		yourIPAddr:    net.IPv4zero,
 		serverIPAddr:  req.ServerIPAddr(),
 		gatewayIPAddr: req.GatewayIPAddr(),
+		clientHwAddr:  req.ClientHwAddr(),
 		options: []Option{
 			&OptMessageType{
 				MessageType: MessageTypeNak,
